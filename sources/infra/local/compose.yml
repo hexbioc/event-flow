@@ -1,0 +1,15 @@
+services:
+  rmq:
+    image: rabbitmq:4.1.2-management-alpine
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    env_file:
+      - .env
+    volumes:
+      - ./conf/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - rmq-data:/var/lib/rabbitmq
+    restart: always
+
+volumes:
+  rmq-data:

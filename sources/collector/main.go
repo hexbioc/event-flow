@@ -3,7 +3,8 @@ package main
 import "collector/server"
 
 func main() {
-	server := server.New()
+	server, shutdownActions := server.New()
+	defer shutdownActions()
 
 	server.Run()
 }
