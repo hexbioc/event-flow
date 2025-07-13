@@ -1,6 +1,7 @@
 package server
 
 import (
+	"collector/common"
 	"collector/config"
 	"collector/events"
 	"fmt"
@@ -24,16 +25,22 @@ func New() *gin.Engine {
 	if err != nil {
 		panic(fmt.Errorf("Fatal error while loading configuration: %w", err))
 	}
-	fmt.Println("config:", cfg)
 
 	// Create server
+	if cfg.Env != "dev" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	engine := gin.New()
 
-	// Add common middleware
-	engine.Use(gin.Recovery())
-	engine.Use(gin.Logger())
+	// Create logger
+	baseLogger := common.NewLogger(cfg)
 
-	// Initialize middleware
+	// Add common middleware
+	engine.Use(RequestContextMiddleware(cfg, baseLogger))
+	engine.Use(LoggerMiddleware(cfg, []string{"/health"}))
+	engine.Use(RecoveryMiddleware())
+
+	// Initialize route-based middleware
 	authMiddleware := AuthMiddleware(cfg)
 
 	// Add healthcheck route

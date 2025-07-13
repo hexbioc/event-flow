@@ -7,11 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const ApiKeyHeader = "X-Api-Key"
+const xApiKeyHeader = "X-Api-Key"
 
 func AuthMiddleware(config *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		headerValue := c.GetHeader(ApiKeyHeader)
+		headerValue := c.GetHeader(xApiKeyHeader)
 
 		if headerValue != config.XApiKey {
 			c.AbortWithStatus(http.StatusUnauthorized)
