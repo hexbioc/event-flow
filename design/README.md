@@ -70,3 +70,22 @@ sequenceDiagram
         ps ->> mq: ack(event)
         deactivate ps
 ```
+
+## Future Improvements
+
+Given the limited time I had available to build this out, I chose to
+invest most of the time in the design and implementation. There is a
+lot more I would ideally like to build, some of which is listed below:
+
+* As the system matures, the `processor` can evolve to operate on the
+  event as well, and update its own database. This is likely to lead to
+  the problem of dual writes, and a trasactional outbox implementation
+  could be suitable to work around this problem.
+* Setting up a results backend for the processor workers would allow
+  signigicant visibility into not only the processed events, but also
+  the responses received from the target.
+* Setup metric monitoring, likely with [Prometheus](https://prometheus.io/)
+  and [Grafana](https://grafana.com/oss/grafana/).
+* Setup log aggregation, maybe with [Loki](https://grafana.com/oss/loki/)
+* Integrate opentelemetry / opentracing, and maybe deploy
+  [jeager](https://www.jaegertracing.io/) as well.
