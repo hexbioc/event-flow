@@ -2,6 +2,7 @@ package server
 
 import (
 	"collector/config"
+	"crypto/subtle"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -9,11 +10,13 @@ import (
 
 const xApiKeyHeader = "X-Api-Key"
 
-func AuthMiddleware(config *config.Config) gin.HandlerFunc {
+func AuthMiddleware(cfg *config.Config) gin.HandlerFunc {
+	apiKeyBytes := []byte(cfg.XApiKey)
+
 	return func(c *gin.Context) {
 		headerValue := c.GetHeader(xApiKeyHeader)
 
-		if headerValue != config.XApiKey {
+		if subtle.ConstantTimeCompare([]byte(headerValue), apiKeyBytes) != 1 {
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 	}
