@@ -1,0 +1,6 @@
+{
+	"id": "66d81702-2097-44de-99aa-5de63389d653",
+	"name": "inventory-updated",
+	"body": "{\"foo\": \"bar\"}",
+	"timestamp": "1752443484.573"
+}
