@@ -72,6 +72,16 @@ variable "github_repository_filter" {
   type        = string
 }
 
+variable "rmq_username" {
+  description = "Username for RabbitMQ"
+  type        = string
+}
+
+variable "rmq_password" {
+  description = "Password for RabbitMQ"
+  type        = string
+}
+
 variable "common_tags" {
   description = "Map of common tags for all created resources"
   type        = map(string)

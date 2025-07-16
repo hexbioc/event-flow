@@ -4,6 +4,7 @@ export const config = Object.freeze({
 	ENV: process.env.ENV || "dev",
 	WORKERS: Number.parseInt(process.env.WORKERS || "1"),
 
+	RMQ_TLS: process.env.RMQ_TLS || "",
 	RMQ_HOSTNAME: process.env.RMQ_HOSTNAME || "",
 	RMQ_USER: process.env.RMQ_USER || "",
 	RMQ_PASSWORD: process.env.RMQ_PASSWORD || "",

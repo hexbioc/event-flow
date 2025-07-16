@@ -17,9 +17,15 @@ type Handler struct {
 }
 
 func New(cfg *config.Config) *Handler {
+	proto := "amqp"
+	if cfg.RMQTLS == "true" {
+		proto = "amqps"
+	}
+
 	return &Handler{
 		rmqUri: fmt.Sprintf(
-			"amqp://%s:%s@%s/%s",
+			"%s://%s:%s@%s/%s",
+			proto,
 			cfg.RMQUser,
 			cfg.RMQPassword,
 			cfg.RMQHostname,

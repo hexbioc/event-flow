@@ -28,6 +28,11 @@ output "aws_role_for_github" {
   value       = module.ecr.aws_role_for_github
 }
 
+output "instances" {
+  description = "Instance information of RabbitMQ"
+  value       = module.amq.instances
+}
+
 output "bastion_public_ip" {
   description = "Public IP of the bastion host, if created"
   value       = var.enable_bastion_host ? module.vpc.bastion_public_ip : "Not enabled"

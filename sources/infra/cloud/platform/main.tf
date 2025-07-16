@@ -47,3 +47,14 @@ module "ecr" {
   services                 = var.ecr_services
   github_repository_filter = var.github_repository_filter
 }
+
+module "amq" {
+  source = "./modules/amq"
+
+  name    = "${var.project}-mq"
+  vpc     = module.vpc.id
+  subnets = [module.vpc.private_subnets[0]]
+
+  username = var.rmq_username
+  password = var.rmq_password
+}
