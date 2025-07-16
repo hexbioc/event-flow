@@ -14,9 +14,7 @@ variable "project" {
 variable "azs" {
   description = "List of availability zones for the project"
   type        = list(string)
-  // NOTE: Using only a single AZ to limit costs, this of course
-  // will not be done in practice
-  default = ["us-east-2a", "us-east-2b"]
+  default     = ["us-east-2a", "us-east-2b"]
 }
 
 variable "cidr" {
@@ -62,6 +60,16 @@ variable "node_instance_type" {
   description = "Instance type for EKS cluster nodes"
   type        = string
   default     = "t3.small"
+}
+
+variable "ecr_services" {
+  description = "List of services that require a repository"
+  type        = set(string)
+}
+
+variable "github_repository_filter" {
+  description = "Github repository filter for OIDC with Github Actions"
+  type        = string
 }
 
 variable "common_tags" {

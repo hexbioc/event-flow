@@ -18,6 +18,16 @@ output "cluster_security_group_id" {
   value       = module.eks.cluster_security_group_id
 }
 
+output "ecr_repositories" {
+  description = "List of created ECR repositories"
+  value       = module.ecr.repositories
+}
+
+output "aws_role_for_github" {
+  description = "AWS Role for Github Actions"
+  value       = module.ecr.aws_role_for_github
+}
+
 output "bastion_public_ip" {
   description = "Public IP of the bastion host, if created"
   value       = var.enable_bastion_host ? module.vpc.bastion_public_ip : "Not enabled"

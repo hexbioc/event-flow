@@ -7,16 +7,19 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy sources and build application
+# Copy sources
 COPY . .
-RUN CGO_ENABLED=0 go build -o main .
+
+# Run tests and build application
+RUN go test ./... && \
+    CGO_ENABLED=0 go build -o server .
 
 #### FINAL STAGE ####################################
 FROM gcr.io/distroless/static-debian12
 
-COPY --from=builder /app/main /
+COPY --from=builder /app/server /
 
 # Setup non-root user
 USER nonroot:nonroot
 
-CMD ["/main"]
+CMD ["/server"]

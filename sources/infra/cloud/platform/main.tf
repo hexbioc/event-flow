@@ -39,3 +39,11 @@ module "eks" {
 
   tags = local.common_tags
 }
+
+module "ecr" {
+  source = "./modules/ecr"
+
+  base_repository          = var.project
+  services                 = var.ecr_services
+  github_repository_filter = var.github_repository_filter
+}
