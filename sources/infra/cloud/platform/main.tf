@@ -33,9 +33,9 @@ module "eks" {
   subnet_ids = module.vpc.private_subnets
 
   // Configuring node pool to be a maximum of 3 nodes
-  ng_min_size     = 1
-  ng_max_size     = 3
-  ng_desired_size = 1
+  ng_min_size     = var.eks_min_nodes
+  ng_desired_size = var.eks_min_nodes
+  ng_max_size     = var.eks_max_nodes
 
   tags = local.common_tags
 }

@@ -56,10 +56,16 @@ variable "bastion_ssh_key" {
   type        = string
 }
 
-variable "node_instance_type" {
-  description = "Instance type for EKS cluster nodes"
-  type        = string
-  default     = "t3.small"
+variable "eks_min_nodes" {
+  description = "Minimum number of nodes in EKS node pool"
+  type        = number
+  default     = 1
+}
+
+variable "eks_max_nodes" {
+  description = "Maximum number of nodes in EKS node pool"
+  type        = number
+  default     = 1
 }
 
 variable "ecr_services" {
