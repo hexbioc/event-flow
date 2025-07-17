@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor
+spec:
+  selector:
+    matchLabels:
+      app: processor
+  template:
+    metadata:
+      labels:
+        app: processor
+    spec:
+      containers:
+      - name: processor
+        image: "${ECR_BASE}/processor:${PROCESSOR_IMAGE_TAG}"
+        env:
+        - name: ENV
+          value: production
+        - name: HEALTHCHECK_PORT
+          value: "${PROCESSOR_HEALTHCHECK_PORT}"
+        - name: WORKERS
+          value: "${PROCESSOR_WORKERS}"
+        - name: TARGET_BUCKET_SIZE
+          value: "${PROCESSOR_TARGET_BUCKET_SIZE}"
+        - name: TARGET_RESTORE_RATE
+          value: "${PROCESSOR_TARGET_RESTORE_RATE}"
+        - name: TARGET_INVOCATION_COST
+          value: "${PROCESSOR_TARGET_INVOCATION_COST}"
+        - name: RMQ_TLS
+          value: "${RMQ_TLS}"
+        - name: RMQ_HOSTNAME
+          value: "${RMQ_HOSTNAME}"
+        - name: RMQ_USER
+          value: "${RMQ_USER}"
+        - name: RMQ_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: rmq-password
+              key: password
+        - name: RMQ_VHOST
+          value: "${RMQ_VHOST}"
+        - name: RMQ_QUEUE
+          value: "${RMQ_QUEUE}"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: ${PROCESSOR_HEALTHCHECK_PORT}
+        livenessProbe:
+          tcpSocket:
+            port: ${PROCESSOR_HEALTHCHECK_PORT}
+          initialDelaySeconds: 5
+          periodSeconds: 10

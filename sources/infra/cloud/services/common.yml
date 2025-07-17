@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rmq-password
+type: Opaque
+stringData:
+  password: "${RMQ_PASSWORD}"
