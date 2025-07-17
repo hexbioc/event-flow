@@ -3,6 +3,7 @@ import "dotenv/config";
 export const config = Object.freeze({
 	ENV: process.env.ENV || "dev",
 	WORKERS: Number.parseInt(process.env.WORKERS || "1"),
+	HEALTHCHECK_PORT: Number.parseInt(process.env.HEALTHCHECK_PORT || "3000"),
 
 	RMQ_TLS: process.env.RMQ_TLS || "",
 	RMQ_HOSTNAME: process.env.RMQ_HOSTNAME || "",
