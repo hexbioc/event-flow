@@ -12,14 +12,14 @@ COPY . .
 
 # Run tests and build application
 RUN go test ./... && \
-    CGO_ENABLED=0 go build -o server .
+    CGO_ENABLED=0 go build -o webserver .
 
 #### FINAL STAGE ####################################
 FROM gcr.io/distroless/static-debian12
 
-COPY --from=builder /app/server /
+COPY --from=builder /app/webserver /
 
 # Setup non-root user
 USER nonroot:nonroot
 
-CMD ["/server"]
+CMD ["/webserver"]

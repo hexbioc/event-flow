@@ -13,11 +13,6 @@ module "eks" {
     aws-ebs-csi-driver = {
       service_account_role_arn = module.irsa_ebs_csi.iam_role_arn
     }
-
-    // Enable the metrics-server add-on for HPA
-    metrics-server = {
-      version = "v0.8.0-eksbuild.1"
-    }
   }
 
   vpc_id     = var.vpc_id
