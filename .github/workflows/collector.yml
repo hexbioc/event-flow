@@ -3,7 +3,7 @@ name: Build, push and deploy the collector service
 on:
   push:
     branches:
-      - develop
+      - main
     paths:
       - sources/collector/**
 
@@ -38,4 +38,4 @@ jobs:
         with:
           context: ./sources/collector
           push: true
-          tags: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}/collector
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ github.event.repository.name }}/collector:${{ github.run_number }}
