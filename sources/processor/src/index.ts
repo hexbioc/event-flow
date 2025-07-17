@@ -1,11 +1,14 @@
 import { config } from "./config";
+import { createHealthcheckServer } from "./health";
 import { loggerForModule } from "./logger";
 import rmqClient from "./rmq-client";
 import { QueueWorker } from "./worker";
+import type net from "node:net";
 
 async function main() {
 	const logger = loggerForModule("main");
 	let workers: QueueWorker[] = [];
+	let healthServer: net.Server | undefined;
 
 	async function shutdownGracefully() {
 		// Stop workers and close channels
@@ -19,6 +22,9 @@ async function main() {
 		try {
 			await rmqClient.close();
 		} catch {}
+
+		// Stop healthcheck server
+		if (healthServer) healthServer.close();
 	}
 
 	logger.info(`Starting application process [${process.pid}]`);
@@ -47,6 +53,10 @@ async function main() {
 				return worker;
 			}),
 		);
+
+		// Start healthcheck server
+		healthServer = createHealthcheckServer();
+		healthServer.listen(config.HEALTHCHECK_PORT);
 	} catch (err) {
 		logger.error(err, "Application failed to boot!");
 		shutdownGracefully();

@@ -6,8 +6,9 @@ class RabbitMQClient {
 	connection: amqp.ChannelModel | undefined;
 
 	constructor() {
+		const proto = config.RMQ_TLS === "true" ? "amqps" : "amqp";
 		this.uri =
-			`amqp://${config.RMQ_USER}:${config.RMQ_PASSWORD}` +
+			`${proto}://${config.RMQ_USER}:${config.RMQ_PASSWORD}` +
 			`@${config.RMQ_HOSTNAME}/${config.RMQ_VHOST}`;
 	}
 
